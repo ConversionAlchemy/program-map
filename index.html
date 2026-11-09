@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Program Map | Conversion Alchemy</title>
+<link rel="preload" href="pt-sans-700.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: 'PT Sans'; font-weight: 700; src: url(pt-sans-700.woff2) format('woff2'); font-display: block; }
+  html, body { margin: 0; height: 100%; background: #fff; }
+  body { display: flex; align-items: center; justify-content: center; }
+  svg { width: 100%; height: 100%; max-height: 100vh; display: block; font-family: 'PT Sans', sans-serif; font-weight: 700; }
+  .box rect { transition: filter .12s ease; }
+  a.box { cursor: pointer; outline: none; }
+  a.box:hover rect, a.box:focus-visible rect, a.box:active rect {
+    filter: brightness(1.12) drop-shadow(3px 4px 0 rgba(17,17,17,.9));
+  }
+</style>
+</head>
+<body>
+<svg id="map" viewBox="140 230 2240 1020" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+// Paste each training link between the quotes.
+const LINKS = {
+  "Advertorials": "",
+  "Listicles": "",
+  "PDPs": "",
+  "Sales Pages": "",
+  "Build-a-bundles": "",
+  "VSL funnel": "",
+  "Quiz funnel": "",
+
+  "Q4 Sale Optimization": "",
+  "Hero Section Optimization": "",
+  "Carousel Imagery Optimization": "",
+  "Navigation Optimization": "",
+  "Offer Section Optimization": "",
+  "Review Section Optimization": "",
+  "FAQ Section Optimization": "",
+  "Unique Mech": "",
+  "Packaging Optimization": "",
+  "Unboxing Optimization": "",
+  "Cart & Checkout Flows": "",
+  "Exit-Intent Popups": "",
+
+  "Homepage": "",
+  "Navigation Menu": "",
+  "Collection Page": "",
+  "Product Page": "",
+  "Social Proof Page": "",
+  "About Us Page": "",
+  "Mega FAQs Page": ""
+};
+
+const INK = "#1e1e1e", NS = "http://www.w3.org/2000/svg", CX = 1256;
+const svg = document.getElementById("map");
+const el = (tag, attrs, parent = svg) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+el("defs", {}).innerHTML = `<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${INK}"/></marker>`;
+
+const line = (x1, y1, x2, y2, arrow) => el("line", Object.assign({x1, y1, x2, y2, stroke: INK, "stroke-width": 3, "stroke-linecap": "square"}, arrow ? {"marker-end": "url(#ah)"} : {}));
+const poly = (pts, arrow) => el("polyline", Object.assign({points: pts.map(p => p.join(",")).join(" "), fill: "none", stroke: INK, "stroke-width": 3}, arrow ? {"marker-end": "url(#ah)"} : {}));
+
+function text(parent, x, y, str, size, color) {
+  const lines = str.split("\n"), lh = size * 1.08;
+  lines.forEach((s, i) => {
+    const t = el("text", {x, y: y + (i - (lines.length - 1) / 2) * lh, "font-size": size, fill: color, "text-anchor": "middle", "dominant-baseline": "central"}, parent);
+    t.textContent = s;
+  });
+}
+function box(x, y, w, h, fill, label, color, size, link) {
+  const key = label.replace(/\n/g, " ");
+  const g = link ? el("a", {class: "box", href: LINKS[key] || "#", target: "_blank", rel: "noopener"}) : el("g", {});
+  if (link && !LINKS[key]) g.addEventListener("click", e => e.preventDefault());
+  el("rect", {x, y, width: w, height: h, rx: link ? 9 : 16, fill, stroke: INK, "stroke-width": 2}, g);
+  text(g, x + w / 2, y + h / 2, label, size, color);
+}
+function label(x, y, str, size, padW) {
+  el("rect", {x: x - padW / 2, y: y - size * 0.8, width: padW, height: size * 1.6, fill: "#fff"});
+  text(svg, x, y, str, size, INK);
+}
+
+// ---- top ----
+line(CX, 340, CX, 400);
+const acq = ["Advertorials", "Listicles", "PDPs", "Sales Pages", "Build-a-bundles", "VSL funnel", "Quiz funnel"];
+const aw = 201, ax = acq.map((_, i) => 485 + i * 223.5);
+line(ax[0] + aw / 2, 415, ax[6] + aw / 2, 415);
+ax.forEach(x => { line(x + aw / 2, 415, x + aw / 2, 488, true); line(x + aw / 2, 541, x + aw / 2, 603); });
+line(ax[0] + aw / 2, 603, ax[6] + aw / 2, 603);
+line(CX, 541, CX, 560);
+line(CX, 637, CX, 724, true);
+
+// ---- modules ----
+const mods = [
+  ["Q4 Sale\nOptimization", "#5A2FBF", "#fff"], ["Hero Section\nOptimization", "#6FE6F0", INK],
+  ["Carousel Imagery\nOptimization", "#FFF200", INK], ["Navigation\nOptimization", "#80B8F4", INK],
+  ["Offer Section\nOptimization", "#F76B6B", INK], ["Review Section\nOptimization", "#0F3D1F", "#fff"],
+  ["FAQ Section\nOptimization", "#F58FD7", INK], ["Unique Mech", "#80E3B1", INK],
+  ["Packaging\nOptimization", "#FFD23F", INK], ["Unboxing\nOptimization", "#1F56F0", "#fff"],
+  ["Cart & Checkout\nFlows", "#E3DAFB", INK], ["Exit-Intent\nPopups", "#A9A9A9", INK]
+];
+const mw = 163, mh = 75, my = 692;
+const mx = mods.map((_, i) => i < 6 ? 174 + i * 178.2 : 1284 + (i - 6) * 178.2);
+line(mx[0] + 10, my + mh / 2, mx[11] + mw - 10, my + mh / 2);
+line(CX, 880, CX, 734, true);
+
+// ---- store ----
+const store = ["Homepage", "Navigation Menu", "Collection Page", "Product Page", "Social Proof Page", "About Us Page", "Mega FAQs Page"];
+const sw = 213, sx = store.map((_, i) => 441 + i * 236);
+line(sx[0] + sw / 2, 880, sx[6] + sw / 2, 880);
+sx.forEach(x => { line(x + sw / 2, 880, x + sw / 2, 943); line(x + sw / 2, 1068, x + sw / 2, 996, true); });
+line(sx[0] + sw / 2, 1068, sx[6] + sw / 2, 1068);
+line(CX, 1068, CX, 1143);
+
+// ---- labels and boxes (drawn last so they sit on top) ----
+label(CX, 416, "Acquisition funnel", 30, 300);
+label(CX, 1069, "Store funnel", 30, 210);
+box(779, 265, 954, 75, "#111", "Acquire new customers more profitably", "#fff", 30, false);
+box(779, 1143, 954, 75, "#111", "Make more profit from existing store traffic", "#fff", 30, false);
+el("rect", {x: 1158, y: 559, width: 195, height: 78, fill: "#000"});
+el("image", {href: "logo.png", x: 1158, y: 559, width: 195, height: 78, preserveAspectRatio: "xMidYMid meet"});
+acq.forEach((s, i) => box(ax[i], 491, aw, 50, "#F2A7EC", s, INK, 21, true));
+mods.forEach(([s, f, c], i) => box(mx[i], my, mw, mh, f, s, c, 19, true));
+store.forEach((s, i) => box(sx[i], 943, sw, 50, "#3FC567", s, INK, 21, true));
+</script>
+</body>
+</html>
