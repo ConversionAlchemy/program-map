@@ -11,8 +11,11 @@
   body { display: flex; align-items: center; justify-content: center; }
   svg { width: 100%; height: 100%; max-height: 100vh; display: block; font-family: 'PT Sans', sans-serif; font-weight: 700; }
   .box rect { transition: filter .12s ease; }
+  a.box.todo rect { filter: saturate(.18) brightness(1.05); }
+  a.box.todo text { opacity: .55; }
   a.box, a.logo { cursor: pointer; outline: none; }
-  a.box:hover rect, a.box:focus-visible rect, a.box:active rect {
+  a.box.todo { cursor: default; }
+  a.box:not(.todo):hover rect, a.box:not(.todo):focus-visible rect, a.box:not(.todo):active rect {
     filter: brightness(1.12) drop-shadow(0 2px 2px rgba(0,0,0,.30)) drop-shadow(0 4px 8px rgba(0,0,0,.28));
   }
 </style>
@@ -22,32 +25,32 @@
 <script>
 // Paste each training link between the quotes.
 const LINKS = {
-  "Advertorials": "",
-  "Listicles": "",
+  "Advertorials": "https://gamma.app/docs/mhfng1289bhurmd",
+  "Listicles": "https://gamma.app/docs/mhfng1289bhurmd",
   "PDPs": "",
   "Sales Pages": "",
-  "Build-a-bundles": "",
+  "Build-a-bundles": "https://gamma.app/docs/ogwsjxai03kgp1n",
   "VSL funnel": "",
-  "Quiz funnel": "",
+  "Quiz funnel": "https://gamma.app/docs/bsal4qne2ykjplk",
 
-  "Q4 Sale Optimization": "",
-  "Hero Section Optimization": "",
-  "Carousel Imagery Optimization": "",
-  "Navigation Optimization": "",
-  "Offer Section Optimization": "",
-  "Review Section Optimization": "",
-  "FAQ Section Optimization": "",
-  "Unique Mech": "",
-  "Packaging Optimization": "",
-  "Unboxing Optimization": "",
+  "Q4 Sale Optimization": "https://gamma.app/docs/gyqwx1lqh1mmt8q",
+  "Hero Section Optimization": "https://gamma.app/docs-robot/6jde9zspa6c0lps",
+  "Carousel Imagery Optimization": "https://gamma.app/docs/gwl6ch2gory3lru",
+  "Navigation Optimization": "https://gamma.app/docs/1p2eovlo5wb33sz",
+  "Offer Section Optimization": "https://gamma.app/docs/Order-Form-Offer-Section-Optimization-ConversionAlchemycom-uqkajbom040fa0t",
+  "Review Section Optimization": "https://gamma.app/docs-robot/bg8wuquygmqvjtv",
+  "FAQ Section Optimization": "https://gamma.app/docs-robot/0inl4fnvtajp92t",
+  "Unique Mech": "https://gamma.app/docs-robot/gcekypz28kitsyu",
+  "Packaging Optimization": "https://gamma.app/docs/lafxjuuifdmkojb",
+  "Unboxing Optimization": "https://gamma.app/docs/4bznqj9vk4am25m",
   "Cart & Checkout Flows": "",
-  "Exit-Intent Popups": "",
+  "Announcement Bar": "https://gamma.app/docs-robot/1irm90qmb1ongv4",
 
   "Homepage": "",
-  "Navigation Menu": "",
+  "Navigation Menu": "https://gamma.app/docs/1p2eovlo5wb33sz",
   "Collection Page": "",
   "Product Page": "",
-  "Social Proof Page": "",
+  "Social Proof Page": "https://gamma.app/docs/1h2ub2397a9jpkh",
   "About Us Page": "",
   "Mega FAQs Page": ""
 };
@@ -70,7 +73,7 @@ function text(parent, x, y, str, size, color) {
 }
 function box(x, y, w, h, fill, label, color, size, link) {
   const key = label.replace(/\n/g, " ");
-  const g = link ? el("a", {class: "box", href: LINKS[key] || "#", target: "_blank", rel: "noopener"}) : el("g", {});
+  const g = link ? el("a", {class: LINKS[key] ? "box" : "box todo", href: LINKS[key] || "#", target: "_blank", rel: "noopener"}) : el("g", {});
   if (link && !LINKS[key]) g.addEventListener("click", e => e.preventDefault());
   el("rect", {x, y, width: w, height: h, rx: link ? 9 : 16, fill, stroke: INK, "stroke-width": 2}, g);
   text(g, x + w / 2, y + h / 2, label, size, color);
@@ -97,7 +100,7 @@ const mods = [
   ["Offer Section\nOptimization", "#F76B6B", INK], ["Review Section\nOptimization", "#0F3D1F", "#fff"],
   ["FAQ Section\nOptimization", "#F58FD7", INK], ["Unique Mech", "#80E3B1", INK],
   ["Packaging\nOptimization", "#FFD23F", INK], ["Unboxing\nOptimization", "#1F56F0", "#fff"],
-  ["Cart & Checkout\nFlows", "#E3DAFB", INK], ["Exit-Intent\nPopups", "#A9A9A9", INK]
+  ["Cart & Checkout\nFlows", "#E3DAFB", INK], ["Announcement\nBar", "#A9A9A9", INK]
 ];
 const mw = 163, mh = 75, my = 692;
 const mx = mods.map((_, i) => i < 6 ? 174 + i * 178.2 : 1284 + (i - 6) * 178.2);
