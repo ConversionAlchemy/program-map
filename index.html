@@ -11,7 +11,7 @@
   body { display: flex; align-items: center; justify-content: center; }
   svg { width: 100%; height: 100%; max-height: 100vh; display: block; font-family: 'PT Sans', sans-serif; font-weight: 700; }
   .box rect { transition: filter .12s ease; }
-  a.box { cursor: pointer; outline: none; }
+  a.box, a.logo { cursor: pointer; outline: none; }
   a.box:hover rect, a.box:focus-visible rect, a.box:active rect {
     filter: brightness(1.12) drop-shadow(0 2px 2px rgba(0,0,0,.30)) drop-shadow(0 4px 8px rgba(0,0,0,.28));
   }
@@ -117,9 +117,11 @@ label(CX, 416, "Acquisition funnel", 30, 300);
 label(CX, 1069, "Store funnel", 30, 210);
 box(779, 265, 954, 75, "#111", "Acquire new customers more profitably", "#fff", 30, false);
 box(779, 1143, 954, 75, "#111", "Make more profit from existing store traffic", "#fff", 30, false);
-el("rect", {x: 1158, y: 559, width: 195, height: 78, fill: "#000"});
-const logo = el("image", {href: "https://conversionalchemy.b-cdn.net/Conversion-Alchemy%20Logo.png", x: 1170, y: 569, width: 171, height: 58, preserveAspectRatio: "xMidYMid meet"});
-logo.addEventListener("error", () => { logo.setAttribute("href", "logo.png"); logo.setAttribute("x", 1158); logo.setAttribute("y", 559); logo.setAttribute("width", 195); logo.setAttribute("height", 78); });
+const LW = 195, LH = 83, LX = CX - LW / 2 - 0.5, LY = 598 - LH / 2;
+const logoLink = el("a", {href: "https://conversionalchemy.com/", target: "_blank", rel: "noopener", class: "logo"});
+const logo = el("image", {href: "https://conversionalchemy.b-cdn.net/Conversion-Alchemy%20Logo.png", x: LX, y: LY, width: LW, height: LH, preserveAspectRatio: "xMidYMid slice"}, logoLink);
+logo.addEventListener("error", () => logo.setAttribute("href", "logo.png"));
+el("rect", {x: LX - 1.5, y: LY - 1.5, width: LW + 3, height: LH + 3, fill: "none", stroke: "#fff", "stroke-width": 3}, logoLink);
 acq.forEach((s, i) => box(ax[i], 491, aw, 50, "#F2A7EC", s, INK, 21, true));
 mods.forEach(([s, f, c], i) => box(mx[i], my, mw, mh, f, s, c, 19, true));
 store.forEach((s, i) => box(sx[i], 943, sw, 50, "#3FC567", s, INK, 21, true));
